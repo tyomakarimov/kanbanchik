@@ -1,0 +1,29 @@
+.button {
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  font: inherit;
+  background-color: rgb(86, 255, 151);
+  border: 1px solid rgb(86, 255, 151);
+  color: white;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-right: 0.5rem;
+  display: inline-block;
+  outline: none;
+  &:hover,
+  &:active {
+    background-color: rgb(52, 219, 116);
+    border-color: rgb(52, 219, 116);
+  }
+}
+
+.flat {
+  background-color: transparent;
+  color: rgb(86, 255, 151);
+  border: 1px solid rgb(86, 255, 151);
+  &:hover,
+  &:active {
+    color: white;
+    background-color: rgb(86, 255, 151);
+  }
+}
