@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 import classes from './Navbar.module.scss';
 import logo from '../../assets/logo.svg';
 
@@ -8,10 +10,14 @@ const Navbar: React.FC = () => {
       <nav>
         <ul>
           <li>
-            <a href="/login">Login</a>
+            <NavLink to="/login" activeClassName={classes.active}>
+              Login
+            </NavLink>
           </li>
           <li>
-            <a href="/register">Register</a>
+            <NavLink to="/register" activeClassName={classes.active}>
+              Register
+            </NavLink>
           </li>
         </ul>
       </nav>
