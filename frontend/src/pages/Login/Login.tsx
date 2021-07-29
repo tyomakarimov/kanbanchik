@@ -23,21 +23,11 @@ const Login: React.FC = () => {
         <label htmlFor="login" className={classes.formLabel}>
           Username
         </label>
-        <input
-          type="text"
-          id="login"
-          className={classes.formInput}
-          ref={loginRef}
-        />
+        <input type="text" id="login" className={classes.formInput} ref={loginRef} />
         <label htmlFor="password" className={classes.formLabel}>
           Password
         </label>
-        <input
-          type="password"
-          id="password"
-          className={classes.formInput}
-          ref={passwordRef}
-        />
+        <input type="password" id="password" className={classes.formInput} ref={passwordRef} />
         <Button flat={false}>Log In</Button>
         <Button flat={true}>Dont have an account? Register instead</Button>
       </form>

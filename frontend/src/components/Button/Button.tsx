@@ -5,7 +5,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = props => {
-  const classNames = [classes.button, props.flat ? classes.flat : '']
+  const classNames = [classes.button, props.flat ? classes.flat : ''];
   return <button className={classNames.join(' ')}>{props.children}</button>;
 };
 
