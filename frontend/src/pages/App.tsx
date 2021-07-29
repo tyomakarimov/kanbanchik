@@ -1,7 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
 
 import Navbar from '../components/Navbar/Navbar';
-import Login from '../pages/Login/Login';
+import Login from './Authentication/Login';
+import Register from './Authentication/Register';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,9 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
         </Switch>
       </main>
