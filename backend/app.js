@@ -1,13 +1,20 @@
-const sequelize = require("./db/sequelize");
-//const User = require("./models/User");
-//const Desk = require("./models/Desk");
-const test = async () => {
+const express = require("express");
+require("dotenv").config({ path: "src/config/.env" });
+const sequelize = require("./src/data/db/sequelize");
+const models = require("./src/data/models/models");
+
+const app = express();
+
+const start = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    await sequelize.sync();
+    app.listen(process.env.PORT, () =>
+      console.log(`Server started on port ${process.env.PORT}`)
+    );
+  } catch (e) {
+    console.error(e);
   }
 };
 
-test();
+start();
