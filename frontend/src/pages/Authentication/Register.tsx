@@ -2,6 +2,7 @@ import { useRef } from 'react';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
 import classes from './Authentication.module.scss';
 
 const Register: React.FC = () => {
@@ -11,7 +12,7 @@ const Register: React.FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  const submitHandler = (event: React.FormEvent) => {
+  const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const enteredFirstName = firstNameRef.current?.value;
@@ -28,34 +29,20 @@ const Register: React.FC = () => {
       enteredPasswordConfirm,
     });
   };
+
   return (
     <Card>
       <h1 className={classes.h1}>Register</h1>
       <form onSubmit={submitHandler}>
-        <label htmlFor="firstName" className={classes.formLabel}>
-          First Name
-        </label>
-        <input type="text" id="firstName" className={classes.formInput} ref={firstNameRef} />
-        <label htmlFor="lastName" className={classes.formLabel}>
-          Last Name
-        </label>
-        <input type="text" id="lastName" className={classes.formInput} ref={lastNameRef} />
-        <label htmlFor="userName" className={classes.formLabel}>
-          UserName
-        </label>
-        <input type="text" id="userName" className={classes.formInput} ref={userNameRef} />
-        <label htmlFor="password" className={classes.formLabel}>
-          Password
-        </label>
-        <input type="password" id="password" className={classes.formInput} ref={passwordRef} />
-        <label htmlFor="passwordConfirm" className={classes.formLabel}>
-          Confirm Password
-        </label>
-        <input
-          type="password"
+        <Input id="firstName" type="text" label="First Name" reference={firstNameRef} />
+        <Input id="lastName" type="text" label="Last Name" reference={lastNameRef} />
+        <Input id="userName" type="text" label="UserName" reference={userNameRef} />
+        <Input id="password" type="password" label="Password" reference={passwordRef} />
+        <Input
           id="passwordConfirm"
-          className={classes.formInput}
-          ref={confirmPasswordRef}
+          type="password"
+          label="Confirm Password"
+          reference={confirmPasswordRef}
         />
         <Button flat={false}>Register</Button>
         <Button flat={true} link="/login">

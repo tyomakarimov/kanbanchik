@@ -1,0 +1,25 @@
+.formInput {
+  width: 100%;
+  height: 1.7rem;
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  outline: none;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
+
+.formLabel {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  display: block;
+  font-size: 1.3rem;
+}
+
+.invalidInput {
+  border-color: red;
+}
+
+.invalidParagraph {
+  color: red;
+  margin-top: -0.5rem;
+}
