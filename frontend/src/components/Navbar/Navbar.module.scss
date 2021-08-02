@@ -25,7 +25,14 @@
     color: white;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
+
+    &.active {
+      color: rgb(0, 138, 53);
+      padding-bottom: 0.25rem;
+      border-bottom: 3px solid rgb(53, 168, 97);
+    }
   }
+
   img {
     height: 3.5rem;
     margin-left: 40%;
