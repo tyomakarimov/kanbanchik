@@ -1,4 +1,5 @@
 import { useRef, FormEvent } from 'react';
+import axios, { AxiosResponse } from 'axios';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
@@ -9,13 +10,20 @@ const Login: React.FC = () => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const enteredUserName = userNameRef.current?.value;
     const enteredPassword = passwordRef.current?.value;
 
-    console.log({ enteredUserName, enteredPassword });
+    const response: AxiosResponse = await axios.post('http://localhost:5000/api/auth/login', {
+      login: enteredUserName,
+      password: enteredPassword,
+    });
+
+    const { data } = response;
+
+    console.log(data.jwt);
   };
   return (
     <Card>
