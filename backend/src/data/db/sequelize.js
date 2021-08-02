@@ -1,5 +1,5 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config({ path: "../../config/.env" });
+const { Sequelize } = require('sequelize');
+require('dotenv').config({ path: '../../config/.env' });
 
 const sequelize = new Sequelize({
   username: process.env.DB_USERNAME,
@@ -10,8 +10,8 @@ const sequelize = new Sequelize({
   define: {
     freezeTableName: true,
     underscored: true,
-    createdAt: "created_at",
-    updatedAt: "updated_at",
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 });
 
