@@ -1,13 +1,17 @@
 import { useState, useRef, FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
+import { registerUser } from '../../store/Authentication/authActions';
 import classes from './Authentication.module.scss';
 
 const Register: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(true);
+
+  const dispatch = useDispatch();
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -23,16 +27,15 @@ const Register: React.FC = () => {
     const enteredUserName = userNameRef.current?.value;
     const enteredPassword = passwordRef.current?.value;
 
-    const response: AxiosResponse = await axios.post('http://localhost:5000/api/auth/register', {
-      name: enteredFirstName,
-      surname: enteredLastName,
-      login: enteredUserName,
-      password: enteredPassword,
-    });
-
-    const { data } = response;
-
-    console.log({ token: data.jwt });
+    if (enteredFirstName && enteredLastName && enteredUserName && enteredPassword) {
+      const registerData = {
+        firstName: enteredFirstName,
+        lastName: enteredLastName,
+        userName: enteredUserName,
+        password: enteredPassword,
+      };
+      dispatch(registerUser(registerData));
+    }
   };
 
   const loosingFocusHandler = async () => {
@@ -40,7 +43,7 @@ const Register: React.FC = () => {
 
     if (!enteredUserName) return;
 
-    const response: AxiosResponse = await axios.get(
+    const response: AxiosResponse<{ message: string }> = await axios.get(
       `http://localhost:5000/api/user?login=${enteredUserName}`,
     );
 

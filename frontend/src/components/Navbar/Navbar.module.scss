@@ -37,4 +37,27 @@
     height: 3.5rem;
     margin-left: 40%;
   }
+
+  button {
+    font: inherit;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgb(0, 138, 53);
+      color: rgb(0, 138, 53);
+    }
+  }
+
+  .userIcon {
+    height: 2rem;
+    position: relative;
+    left: -7rem;
+    top: 0.55rem;
+    margin-right: -8.3rem;
+  }
 }
