@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar/Navbar';
 import Login from './Authentication/Login';
 import Register from './Authentication/Register';
-import Tasks from './Tasks/Tasks';
+import Tasks from './Tasks/Home';
 import { RootState } from '../store';
 import { autoLogIn } from '../store/Authentication/authActions';
 
@@ -23,17 +23,17 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/" exact>
             {!isAuthenticated && <Redirect to="/login" />}
-            {isAuthenticated && <Redirect to="/tasks" />}
+            {isAuthenticated && <Redirect to="/home" />}
           </Route>
           <Route path="/login">
             {!isAuthenticated && <Login />}
-            {isAuthenticated && <Redirect to="/tasks" />}
+            {isAuthenticated && <Redirect to="/home" />}
           </Route>
           <Route path="/register">
             {!isAuthenticated && <Register />}
-            {isAuthenticated && <Redirect to="/tasks" />}
+            {isAuthenticated && <Redirect to="/home" />}
           </Route>
-          <Route path="/tasks">
+          <Route path="/home">
             {isAuthenticated && <Tasks />}
             {!isAuthenticated && <Redirect to="/login" />}
           </Route>
