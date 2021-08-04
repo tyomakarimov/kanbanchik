@@ -8,6 +8,7 @@ import { logUserIn } from '../../store/Authentication/authActions';
 import classes from './Authentication.module.scss';
 
 const Login: React.FC = () => {
+  console.log('login')
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 

@@ -26,6 +26,7 @@ export const logUserIn = (data: LogInData): ThunkAction<void, RootState, unknown
       const token = await sendRequest();
       dispatch(authActions.logIn(data.userName));
       localStorage.setItem('jwt', token);
+      localStorage.setItem('userName', data.userName);
     } catch (error) {
       console.log(error.message);
     }
@@ -54,6 +55,7 @@ export const registerUser = (
       const token = await sendRequest();
       dispatch(authActions.logIn(data.userName));
       localStorage.setItem('jwt', token);
+      localStorage.setItem('userName', data.userName);
     } catch (error) {
       console.log(error.message);
     }
@@ -63,6 +65,18 @@ export const registerUser = (
 export const logUserOut = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return dispatch => {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('userName');
     dispatch(authActions.logOut());
+  };
+};
+
+export const autoLogIn = (): ThunkAction<void | undefined, RootState, unknown, AnyAction> => {
+  return dispatch => {
+    const token = localStorage.getItem('jwt');
+    if (!token) return;
+    else {
+      const userName = localStorage.getItem('userName');
+      if (userName) dispatch(authActions.logIn(userName));
+    }
   };
 };

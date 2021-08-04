@@ -9,6 +9,7 @@ import { registerUser } from '../../store/Authentication/authActions';
 import classes from './Authentication.module.scss';
 
 const Register: React.FC = () => {
+  console.log('register');
   const [isValid, setIsValid] = useState<boolean>(true);
 
   const dispatch = useDispatch();
