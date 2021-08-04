@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
           {isAuthenticated && (
             <>
               <img src={userIcon} alt="user" className={classes.userIcon} />
-              <li>{userName}</li>
+              <li className={classes.userName}>{userName}</li>
             </>
           )}
           {isAuthenticated && (
