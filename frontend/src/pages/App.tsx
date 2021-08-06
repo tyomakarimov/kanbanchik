@@ -10,7 +10,6 @@ import { RootState } from '../store';
 import { autoLogIn } from '../store/Authentication/authActions';
 
 const App: React.FC = () => {
-  console.log('here');
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(autoLogIn());

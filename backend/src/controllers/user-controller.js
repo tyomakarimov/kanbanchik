@@ -5,9 +5,9 @@ class UserController {
     const params = req.query;
     try {
       const user = await UserService.get(params);
-      return res.status(200).json(user);
+      return res.status(200).json(user.login);
     } catch (e) {
-      return res.json(e.message);
+      return res.json(null);
     }
   }
   static async refresh(req, res, next) {

@@ -38,7 +38,7 @@ export const registerUser = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async dispatch => {
     const sendRequest = async () => {
-      const response: AxiosResponse<{ jwt: string }> = await axios.post(
+      const response: AxiosResponse = await axios.post(
         'http://localhost:5000/api/auth/register',
         {
           name: data.firstName,
@@ -47,8 +47,8 @@ export const registerUser = (
           password: data.password,
         },
       );
-      const { jwt } = response.data;
-      return jwt;
+      const { refreshToken } = response.data;
+      return refreshToken;
     };
 
     try {

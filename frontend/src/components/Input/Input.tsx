@@ -6,6 +6,7 @@ interface Props {
   type: string;
   label: string;
   reference: RefObject<HTMLInputElement>;
+  hasSubmitted: boolean;
   onLoosingFocus?: () => Promise<boolean | undefined>;
 }
 
@@ -28,6 +29,15 @@ const Input: React.FC<Props> = props => {
     if (!props.reference.current?.value) setIsEmpty(true);
     else setIsEmpty(false);
   };
+
+  const checkIsEmpty = () => {
+    if (!isEmpty && !props.reference.current?.value) {
+      setIsEmpty(true);
+      setIsTouched(true);
+    }
+  };
+
+  if (props.hasSubmitted) checkIsEmpty();
 
   return (
     <>
