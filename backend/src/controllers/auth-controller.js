@@ -14,7 +14,7 @@ class AuthController {
       });
       return res.json(userData);
     } catch (e) {
-      return res.status(e.status).json(e.message);
+      return res.json(e.message);
     }
   }
 
