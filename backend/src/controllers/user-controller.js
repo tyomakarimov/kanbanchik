@@ -5,7 +5,7 @@ class UserController {
     const params = req.query;
     try {
       const user = await UserService.get(params);
-      return res.status(200).json(user);
+      return res.status(200).json(user.login);
     } catch (e) {
       return res.send(null);
     }

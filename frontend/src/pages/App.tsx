@@ -5,12 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar/Navbar';
 import Login from './Authentication/Login';
 import Register from './Authentication/Register';
-import Tasks from './Tasks/Home';
+import Tasks from './Home/Home';
 import { RootState } from '../store';
 import { autoLogIn } from '../store/Authentication/authActions';
 
 const App: React.FC = () => {
-  console.log('here');
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(autoLogIn());

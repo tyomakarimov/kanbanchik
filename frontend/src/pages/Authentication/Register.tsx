@@ -6,11 +6,12 @@ import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { registerUser } from '../../store/Authentication/authActions';
+import { validatePasswords } from '../../helpers/validation/validatePasswords';
 import classes from './Authentication.module.scss';
 
 const Register: React.FC = () => {
-  console.log('register');
   const [isValid, setIsValid] = useState<boolean>(true);
+  const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -27,15 +28,37 @@ const Register: React.FC = () => {
     const enteredLastName = lastNameRef.current?.value;
     const enteredUserName = userNameRef.current?.value;
     const enteredPassword = passwordRef.current?.value;
+    const enteredConfirmPassword = confirmPasswordRef.current?.value;
 
-    if (enteredFirstName && enteredLastName && enteredUserName && enteredPassword) {
+    if (
+      enteredFirstName &&
+      enteredLastName &&
+      enteredUserName &&
+      enteredPassword &&
+      enteredConfirmPassword
+    ) {
       const registerData = {
         firstName: enteredFirstName,
         lastName: enteredLastName,
         userName: enteredUserName,
         password: enteredPassword,
       };
+      try {
+        validatePasswords(enteredPassword, enteredConfirmPassword);
+      } catch (error) {
+        console.log(error.message);
+        return;
+      }
       dispatch(registerUser(registerData));
+    } else {
+      setHasSubmitted(true);
+      if (enteredPassword && enteredConfirmPassword) {
+        try {
+          validatePasswords(enteredPassword, enteredConfirmPassword);
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
     }
   };
 
@@ -48,7 +71,7 @@ const Register: React.FC = () => {
       `http://localhost:5000/api/user?login=${enteredUserName}`,
     );
 
-    if (!response.data.message) {
+    if (response.data) {
       setIsValid(false);
       return false;
     } else {
@@ -61,22 +84,42 @@ const Register: React.FC = () => {
     <Card>
       <h1 className={classes.h1}>Register</h1>
       <form onSubmit={submitHandler}>
-        <Input id="firstName" type="text" label="First Name" reference={firstNameRef} />
-        <Input id="lastName" type="text" label="Last Name" reference={lastNameRef} />
+        <Input
+          id="firstName"
+          type="text"
+          label="First Name"
+          reference={firstNameRef}
+          hasSubmitted={hasSubmitted}
+        />
+        <Input
+          id="lastName"
+          type="text"
+          label="Last Name"
+          reference={lastNameRef}
+          hasSubmitted={hasSubmitted}
+        />
         <Input
           id="userName"
           type="text"
           label="UserName"
           reference={userNameRef}
           onLoosingFocus={loosingFocusHandler}
+          hasSubmitted={hasSubmitted}
         />
         {!isValid && <p className={classes.invalidParagraph}>This username already exists.</p>}
-        <Input id="password" type="password" label="Password" reference={passwordRef} />
+        <Input
+          id="password"
+          type="password"
+          label="Password"
+          reference={passwordRef}
+          hasSubmitted={hasSubmitted}
+        />
         <Input
           id="passwordConfirm"
           type="password"
           label="Confirm Password"
           reference={confirmPasswordRef}
+          hasSubmitted={hasSubmitted}
         />
         <Button flat={false}>Register</Button>
         <Button flat={true} link="/login">

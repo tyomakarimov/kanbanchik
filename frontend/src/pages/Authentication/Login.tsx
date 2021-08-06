@@ -1,4 +1,4 @@
-import { useRef, FormEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Card from '../../components/Card/Card';
@@ -8,7 +8,7 @@ import { logUserIn } from '../../store/Authentication/authActions';
 import classes from './Authentication.module.scss';
 
 const Login: React.FC = () => {
-  console.log('login')
+  const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -28,13 +28,26 @@ const Login: React.FC = () => {
 
       dispatch(logUserIn(logInData));
     }
+    else setHasSubmitted(true);
   };
   return (
     <Card>
       <h1 className={classes.h1}>Login</h1>
       <form onSubmit={submitHandler}>
-        <Input id="login" type="text" label="Username" reference={userNameRef} />
-        <Input id="password" type="password" label="Password" reference={passwordRef} />
+        <Input
+          id="login"
+          type="text"
+          label="Username"
+          reference={userNameRef}
+          hasSubmitted={hasSubmitted}
+        />
+        <Input
+          id="password"
+          type="password"
+          label="Password"
+          reference={passwordRef}
+          hasSubmitted={hasSubmitted}
+        />
         <Button flat={false}>Log In</Button>
         <Button flat={true} link="/register">
           Dont have an account? Register instead

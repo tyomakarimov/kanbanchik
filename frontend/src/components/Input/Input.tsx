@@ -6,6 +6,7 @@ interface Props {
   type: string;
   label: string;
   reference: RefObject<HTMLInputElement>;
+  hasSubmitted: boolean;
   onLoosingFocus?: () => Promise<boolean | undefined>;
 }
 
@@ -29,6 +30,15 @@ const Input: React.FC<Props> = props => {
     else setIsEmpty(false);
   };
 
+  const checkIsEmpty = () => {
+    if (!isEmpty && !props.reference.current?.value) {
+      setIsEmpty(true);
+      setIsTouched(true);
+    }
+  };
+
+  if (props.hasSubmitted) checkIsEmpty();
+
   return (
     <>
       <label htmlFor={props.id} className={classes.formLabel}>
@@ -41,6 +51,7 @@ const Input: React.FC<Props> = props => {
         ref={props.reference}
         onBlur={blurHandler}
         onChange={changeHandler}
+        autoComplete="off"
       />
       {isEmpty && <p className={classes.invalidParagraph}>This field cannot be empty.</p>}
     </>
