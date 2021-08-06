@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-class Crypto {
+class CryptoService {
   static hash(password) {
     const salt = crypto.randomBytes(8).toString('hex');
     try {
@@ -21,4 +21,4 @@ class Crypto {
   }
 }
 
-module.exports = Crypto;
+module.exports = CryptoService;

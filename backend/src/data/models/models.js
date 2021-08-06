@@ -73,11 +73,29 @@ const Message = sequelize.define('Message', {
   },
 });
 
+const Token = sequelize.define('Token', {
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+  },
+  key: {
+    type: DataTypes.STRING(300),
+    unique: true,
+  },
+});
+
 User.hasMany(Desk, {
-  foreignkey: 'user_id',
+  foreigKey: 'user_id',
 });
 Desk.belongsTo(User, {
   foreignkey: 'user_id',
+});
+
+User.hasOne(Token, {
+  foreignKey: 'user_id',
+});
+Token.belongsTo(Token, {
+  foreignKey: 'user_id',
 });
 
 Desk.hasMany(Task, { foreignKey: 'desk_id' });
@@ -103,6 +121,7 @@ Message.belongsTo(Task, {
 module.exports = {
   User,
   Desk,
+  Token,
   Task,
   Message,
 };
