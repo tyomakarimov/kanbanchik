@@ -7,7 +7,7 @@ class UserController {
       const user = await UserService.get(params);
       return res.status(200).json(user);
     } catch (e) {
-      return res.json(e.message);
+      return res.send(null);
     }
   }
   static async refresh(req, res, next) {
