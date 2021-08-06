@@ -41,6 +41,7 @@ const Input: React.FC<Props> = props => {
         ref={props.reference}
         onBlur={blurHandler}
         onChange={changeHandler}
+        autoComplete="off"
       />
       {isEmpty && <p className={classes.invalidParagraph}>This field cannot be empty.</p>}
     </>
