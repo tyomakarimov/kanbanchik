@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import classes from './Button.module.scss';
@@ -7,7 +8,7 @@ interface Props {
   link?: string;
 }
 
-const Button: React.FC<Props> = props => {
+const Button: FC<Props> = props => {
   const classNames = [classes.button, props.flat ? classes.flat : ''];
   if (props.link) {
     return (

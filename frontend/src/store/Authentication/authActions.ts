@@ -47,8 +47,8 @@ export const registerUser = (
           password: data.password,
         },
       );
-      const { refreshToken } = response.data;
-      return refreshToken;
+      const { accessToken } = response.data;
+      return accessToken;
     };
 
     try {

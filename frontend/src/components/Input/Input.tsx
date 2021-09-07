@@ -1,4 +1,4 @@
-import { useState, RefObject } from 'react';
+import { FC, useState, RefObject } from 'react';
 import classes from './Input.module.scss';
 
 interface Props {
@@ -7,27 +7,32 @@ interface Props {
   label: string;
   reference: RefObject<HTMLInputElement>;
   hasSubmitted: boolean;
-  onLoosingFocus?: () => Promise<boolean | undefined>;
+  error?: boolean;
+  errorMessage?: string;
+  onChange?: () => Promise<boolean | undefined>;
 }
 
-const Input: React.FC<Props> = props => {
+const Input: FC<Props> = props => {
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(true);
 
   const classNames = [classes.formInput, isEmpty || !isValid ? classes.invalidInput : ''];
 
-  const blurHandler = async () => {
-    if (!isTouched) setIsTouched(true);
+  const checkIsValid = async () => {
     if (!props.reference.current?.value) setIsEmpty(true);
     else setIsEmpty(false);
-    if (props.onLoosingFocus) (await props.onLoosingFocus()) ? setIsValid(true) : setIsValid(false);
+    if (props.onChange) (await props.onChange()) ? setIsValid(true) : setIsValid(false);
   };
 
-  const changeHandler = () => {
+  const blurHandler = async () => {
+    if (!isTouched) setIsTouched(true);
+    await checkIsValid();
+  };
+
+  const changeHandler = async () => {
     if (!isTouched) return;
-    if (!props.reference.current?.value) setIsEmpty(true);
-    else setIsEmpty(false);
+    await checkIsValid();
   };
 
   const checkIsEmpty = () => {
@@ -38,6 +43,7 @@ const Input: React.FC<Props> = props => {
   };
 
   if (props.hasSubmitted) checkIsEmpty();
+  if ((props.error || props.errorMessage) && isValid) setIsValid(false);
 
   return (
     <>
@@ -54,6 +60,7 @@ const Input: React.FC<Props> = props => {
         autoComplete="off"
       />
       {isEmpty && <p className={classes.invalidParagraph}>This field cannot be empty.</p>}
+      {props.errorMessage && <p className={classes.invalidParagraph}>{props.errorMessage}</p>}
     </>
   );
 };

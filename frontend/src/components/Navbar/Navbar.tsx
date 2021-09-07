@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -7,7 +8,7 @@ import classes from './Navbar.module.scss';
 import logo from '../../assets/logo.svg';
 import userIcon from '../../assets/user.svg';
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
   const userName = useSelector((state: RootState) => state.auth.user);
   const isAuthenticated = useSelector((state: RootState) => state.auth.authenticated);
   const dispatch = useDispatch();

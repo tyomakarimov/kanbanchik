@@ -1,4 +1,4 @@
-import { useState, useRef, FormEvent } from 'react';
+import { FC, useState, useRef, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 
@@ -9,9 +9,11 @@ import { registerUser } from '../../store/Authentication/authActions';
 import { validatePasswords } from '../../helpers/validation/validatePasswords';
 import classes from './Authentication.module.scss';
 
-const Register: React.FC = () => {
-  const [isValid, setIsValid] = useState<boolean>(true);
+const Register: FC = () => {
   const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+  const [userNameError, setUserNameError] = useState<string | undefined>(undefined);
+  const [passwordError, setPasswordError] = useState<string | undefined>(undefined);
+  const [passwordConfirmError, setPasswordConfirmError] = useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
 
@@ -20,6 +22,27 @@ const Register: React.FC = () => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+  const checkPasswordsAreValid = (password: string, confirmPassword: string) => {
+    try {
+      validatePasswords(password, confirmPassword);
+      setPasswordError(previousValue => {
+        if (previousValue) return undefined;
+      });
+      setPasswordConfirmError(previousValue => {
+        if (previousValue) return undefined;
+      });
+      return true;
+    } catch (error) {
+      if (error.message === 'Passwords do not match.') {
+        setPasswordError(previousValue => {
+          if (previousValue) return undefined;
+        });
+        setPasswordConfirmError(error.message);
+      } else setPasswordError(error.message);
+      return false;
+    }
+  };
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,46 +66,40 @@ const Register: React.FC = () => {
         userName: enteredUserName,
         password: enteredPassword,
       };
-      try {
-        validatePasswords(enteredPassword, enteredConfirmPassword);
-      } catch (error) {
-        console.log(error.message);
-        return;
-      }
+      const validPasswords = checkPasswordsAreValid(enteredPassword, enteredConfirmPassword);
+      if (!validPasswords) return;
       dispatch(registerUser(registerData));
     } else {
       setHasSubmitted(true);
       if (enteredPassword && enteredConfirmPassword) {
-        try {
-          validatePasswords(enteredPassword, enteredConfirmPassword);
-        } catch (error) {
-          console.log(error.message);
-        }
+        checkPasswordsAreValid(enteredPassword, enteredConfirmPassword);
       }
     }
   };
 
-  const loosingFocusHandler = async () => {
+  const userNameChangeHandler = async () => {
     const enteredUserName = userNameRef.current?.value;
 
     if (!enteredUserName) return;
 
-    const response: AxiosResponse<{ message: string }> = await axios.get(
+    const response: AxiosResponse = await axios.get(
       `http://localhost:5000/api/user?login=${enteredUserName}`,
     );
 
     if (response.data) {
-      setIsValid(false);
+      setUserNameError('This username already exists.');
       return false;
     } else {
-      setIsValid(true);
+      setUserNameError(previousValue => {
+        if (previousValue) return undefined;
+      });
       return true;
     }
   };
 
   return (
     <Card>
-      <h1 className={classes.h1}>Register</h1>
+      <h1 className={classes.heading}>Register</h1>
       <form onSubmit={submitHandler}>
         <Input
           id="firstName"
@@ -103,16 +120,18 @@ const Register: React.FC = () => {
           type="text"
           label="UserName"
           reference={userNameRef}
-          onLoosingFocus={loosingFocusHandler}
+          onChange={userNameChangeHandler}
           hasSubmitted={hasSubmitted}
+          errorMessage={userNameError}
         />
-        {!isValid && <p className={classes.invalidParagraph}>This username already exists.</p>}
         <Input
           id="password"
           type="password"
           label="Password"
           reference={passwordRef}
           hasSubmitted={hasSubmitted}
+          error={!!passwordConfirmError}
+          errorMessage={passwordError}
         />
         <Input
           id="passwordConfirm"
@@ -120,6 +139,7 @@ const Register: React.FC = () => {
           label="Confirm Password"
           reference={confirmPasswordRef}
           hasSubmitted={hasSubmitted}
+          errorMessage={passwordConfirmError}
         />
         <Button flat={false}>Register</Button>
         <Button flat={true} link="/login">

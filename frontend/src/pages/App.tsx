@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -9,7 +9,7 @@ import Tasks from './Home/Home';
 import { RootState } from '../store';
 import { autoLogIn } from '../store/Authentication/authActions';
 
-const App: React.FC = () => {
+const App: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(autoLogIn());

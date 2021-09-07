@@ -1,4 +1,4 @@
-import { useState, useRef, FormEvent } from 'react';
+import { FC, useState, useRef, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Card from '../../components/Card/Card';
@@ -7,7 +7,7 @@ import Input from '../../components/Input/Input';
 import { logUserIn } from '../../store/Authentication/authActions';
 import classes from './Authentication.module.scss';
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   };
   return (
     <Card>
-      <h1 className={classes.h1}>Login</h1>
+      <h1 className={classes.heading}>Login</h1>
       <form onSubmit={submitHandler}>
         <Input
           id="login"
